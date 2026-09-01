@@ -27,7 +27,7 @@ b.append(40)
    * **Sim.** Ambas as variáveis apontam para o mesmo e único objeto do tipo lista na memória.
 
 3. **Por quê?**
-   * Em Python, a atribuição `b = a` não cria uma cópia dos dados da lista; ela apenas copia a **referência** (o endereço de memória) do objeto associado à variável `a`. Como as duas variáveis compartilham a mesma referência, qualquer alteração feita no objeto por meio de uma delas (como o método `.append()`, visto que listas são objetos mutáveis) será refletida ao acessar a outra. Se utilizarmos a função `id(a)` e `id(b)`, veremos que ambos os identificadores de memória são idênticos.
+   * Em Python, a atribuição b = a não cria uma cópia dos dados da lista; ela apenas copia a **referência** (o endereço de memória) do objeto associado à variável a. Como as duas variáveis compartilham a mesma referência, qualquer alteração feita no objeto por meio de uma delas (como o método .append(), visto que listas são objetos mutáveis) será refletida ao acessar a outra. Se utilizarmos a função id(a) e id(b), veremos que ambos os identificadores de memória são idênticos.
 
 4. **O que aconteceria com b = a.copy()?**
    * Se utilizarmos b = a.copy(), o Python realizará uma **cópia rasa** (*shallow copy*) da lista. Isso cria um **novo objeto lista na memória** contendo os mesmos elementos originais. Nesse caso:
