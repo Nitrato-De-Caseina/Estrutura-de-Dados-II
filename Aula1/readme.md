@@ -1,6 +1,7 @@
 
 O algoritimo NOTAS solicita e devolve para o usuario: Nome, sexo, idade e tres notas de N alunos em uma turma e ao final apresenta:
 
+
 *Total de alunos cadastrados;
 * A media das idades dos alunos da turma;
 *  Quantidade de alunos aprovados;
