@@ -1,1 +1,281 @@
+Atividade 1 — Listas
+Esta solução cria uma lista interativa, solicita 10 inteiros ao usuário e realiza as operações básicas de agregação, além de resolver o desafio proposto para encontrar o maior, menor e a quantidade de números pares.
+# 1. Inicializa uma lista vazia
+numeros = []
 
+# 2. Solicita os 10 valores ao usuário
+for i in range(10):
+    while True:
+        try:
+            val = int(input(f"Digite o {i+1}º número inteiro: "))
+            numeros.append(val)
+            break
+        except ValueError:
+            print("Entrada inválida. Por favor, digite um número inteiro.")
+
+# 3. Exibe todos os números
+print(f"\nNúmeros digitados: {numeros}")
+
+# 4. Calcula a soma
+soma = sum(numeros)
+
+# 5. Calcula a média
+media = soma / len(numeros)
+
+# --- DESAFIO ---
+maior_valor = max(numeros)
+menor_valor = min(numeros)
+# Conta quantos números na lista são divisíveis por 2
+quantidade_pares = sum(1 for x in numeros if x % 2 == 0)
+
+# Exibição dos resultados
+print("\n=== RESULTADOS ===")
+print(f"Soma dos elementos: {soma}")
+print(f"Média aritmética: {media:.2f}")
+print(f"Maior valor: {maior_valor}")
+print(f"Menor valor: {menor_valor}")
+print(f"Quantidade de números pares: {quantidade_pares}")
+Atividade 2 — Matrizes
+Uma matriz em Python é representada por uma lista de listas. O código a seguir preenche a matriz 3 × 3, formata a exibição visual de forma tabular e faz os cálculos solicitados.
+# Inicializa a estrutura da matriz 3x3
+matriz = []
+
+# Solicita os valores para cada posição
+print("Insira os valores para a matriz 3x3:")
+for i in range(3):
+    linha = []
+    for j in range(3):
+        while True:
+            try:
+                val = int(input(f"Posição [{i}][{j}]: "))
+                linha.append(val)
+                break
+            except ValueError:
+                print("Por favor, insira um número inteiro válido.")
+    matriz.append(linha)
+
+# 1. Exibe a matriz formatada
+print("\nMatriz Digitada:")
+for linha in matriz:
+    # Converte cada número em string e junta com espaços
+    print(" ".join(f"{num:3d}" for num in linha))
+
+# 2. Calcula a soma de todos os elementos
+soma_total = sum(sum(linha) for linha in matriz)
+
+# 3. Calcula a soma da diagonal principal (posições [0][0], [1][1] e [2][2])
+soma_diagonal = sum(matriz[i][i] for i in range(3))
+
+# 4. Encontra o maior elemento
+maior_elemento = max(max(linha) for linha in matriz)
+
+print("\n=== ANÁLISE DA MATRIZ ===")
+print(f"Soma de todos os elementos: {soma_total}")
+print(f"Soma da diagonal principal: {soma_diagonal}")
+print(f"Maior elemento encontrado: {maior_elemento}")
+Atividade 3 — Dicionário
+Dicionários em Python são ideais para mapear propriedades (chaves) a valores. Abaixo, construímos o fluxo de leitura, exibição e posterior alteração da estrutura do dicionário.
+# 1 e 2. Lê os dados e armazena-os diretamente em um dicionário
+livro = {
+    "titulo": input("Digite o título do livro: "),
+    "autor": input("Digite o autor do livro: "),
+    "ano": int(input("Digite o ano de lançamento: ")),
+    "preco": float(input("Digite o preço de venda: R$ "))
+}
+
+# 3. Exibe os dados iniciais
+print("\n=== DADOS DO LIVRO (INICIAIS) ===")
+for chave, valor in livro.items():
+    print(f"{chave.capitalize()}: {valor}")
+
+# 4. Altera o preço
+novo_preco = float(input("\nDigite o novo preço para atualização: R$ "))
+livro["preco"] = novo_preco
+
+# 5. Adiciona uma nova chave chamada 'categoria'
+livro["categoria"] = input("Digite a categoria (gênero) do livro: ")
+
+# Exibição dos dados atualizados
+print("\n=== DADOS DO LIVRO (ATUALIZADOS) ===")
+for chave, valor in livro.items():
+    print(f"{chave.capitalize()}: {valor}")
+Atividade 4 — Dataclass
+As dataclasses simplificam a escrita de classes que servem para armazenar dados, gerando automaticamente métodos como __init__ e __repr__.
+from dataclasses import dataclass
+
+@dataclass
+class Aluno:
+    nome: str
+    matricula: int
+    nota1: float
+    nota2: float
+
+    # Método para calcular a média
+    def media(self) -> float:
+        return (self.nota1 + self.nota2) / 2
+
+# Exemplo prático de uso sugerido pelo exercício
+aluno = Aluno(
+    nome="Maria",
+    matricula=12345,
+    nota1=8.0,
+    nota2=9.0
+)
+
+print(f"Média calculada para {aluno.nome}: {aluno.media()}")
+Atividade 5 — Lista de objetos
+Esta atividade utiliza a estrutura definida na Atividade 4 para gerenciar múltiplos registros simultaneamente em uma lista comum.
+# Reutilizamos a definição da dataclass Aluno
+from dataclasses import dataclass
+
+@dataclass
+class Aluno:
+    nome: str
+    matricula: int
+    nota1: float
+    nota2: float
+
+    def media(self) -> float:
+        return (self.nota1 + self.nota2) / 2
+
+# Cadastrando exatamente 5 alunos em uma lista
+alunos = []
+print("Cadastro de Alunos:")
+for i in range(5):
+    print(f"\n--- Cadastro do {i+1}º Aluno ---")
+    nome = input("Nome: ")
+    matricula = int(input("Matrícula: "))
+    nota1 = float(input("Nota 1: "))
+    nota2 = float(input("Nota 2: "))
+    alunos.append(Aluno(nome, matricula, nota1, nota2))
+
+# 1. Calcula e exibe a média de cada aluno cadastrado
+print("\n=== MÉDIAS DOS ALUNOS ===")
+for al in alunos:
+    print(f"Aluno: {al.nome:<15} | Matrícula: {al.matricula:<8} | Média: {al.media():.2f}")
+
+# 2. Filtra e exibe alunos aprovados (média >= 7.0)
+print("\n=== ALUNOS APROVADOS (Média >= 7.0) ===")
+aprovados = [al for al in alunos if al.media() >= 7.0]
+
+if aprovados:
+    for al in aprovados:
+        print(f"✓ {al.nome} (Média: {al.media():.2f})")
+else:
+    print("Nenhum aluno foi aprovado.")
+
+# 3. Identifica o aluno com a maior média de todas
+aluno_destaque = max(alunos, key=lambda al: al.media())
+print(f"\nEstudante com maior média: {aluno_destaque.nome} (Média: {aluno_destaque.media():.2f})")
+Desafio Integrador — Sistema de Estoque
+Este é o sistema completo unindo dataclasses, listas, métodos de busca dinâmica, loops contínuos e validações simples de erro para garantir a robustez do menu interativo.
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Produto:
+    codigo: int
+    nome: str
+    preco: float
+    quantidade: int
+
+# Banco de dados temporário em memória para armazenar os produtos
+estoque: List[Produto] = []
+
+def cadastrar_produto():
+    print("\n--- CADASTRO DE PRODUTO ---")
+    try:
+        codigo = int(input("Digite o código do produto (somente números): "))
+        
+        # Validação: Evitar a duplicação de códigos de produto no estoque
+        if any(p.codigo == codigo for p in estoque):
+            print("Erro: Já existe um produto cadastrado com esse código.")
+            return
+            
+        nome = input("Digite o nome do produto: ")
+        preco = float(input("Digite o preço unitário: R$ "))
+        quantidade = int(input("Digite a quantidade inicial em estoque: "))
+        
+        novo_produto = Produto(codigo, nome, preco, quantidade)
+        estoque.append(novo_produto)
+        print(f"\nSucesso: '{nome}' cadastrado com sucesso!")
+        
+    except ValueError:
+        print("Erro: Entrada inválida. Certifique-se de preencher dados numéricos corretamente.")
+
+def listar_produtos():
+    print("\n--- PRODUTOS EM ESTOQUE ---")
+    if not estoque:
+        print("Nenhum produto cadastrado no momento.")
+        return
+        
+    for p in estoque:
+        print(f"Cód: {p.codigo:<5} | Nome: {p.nome:<15} | Preço: R$ {p.preco:>7.2f} | Qtd: {p.quantidade:>4}")
+
+def buscar_produto():
+    print("\n--- BUSCAR PRODUTO ---")
+    if not estoque:
+        print("Nenhum produto em estoque para realizar buscas.")
+        return
+        
+    try:
+        codigo_busca = int(input("Digite o código do produto que deseja procurar: "))
+        for p in estoque:
+            if p.codigo == codigo_busca:
+                print(f"\nProduto encontrado:")
+                print(f"-> Nome: {p.nome}")
+                print(f"-> Preço Unitário: R$ {p.preco:.2f}")
+                print(f"-> Qtd. Disponível: {p.quantidade}")
+                return
+        print("Produto não localizado no estoque.")
+    except ValueError:
+        print("Erro: Por favor, insira apenas valores numéricos.")
+
+def calcular_valor_total():
+    print("\n--- VALOR TOTAL DO ESTOQUE ---")
+    # Calcula a soma do valor unitário multiplicado pela quantidade de cada produto
+    valor_total = sum(p.preco * p.quantidade for p in estoque)
+    print(f"O valor total do patrimônio em estoque é: R$ {valor_total:.2f}")
+
+def identificar_produto_mais_caro():
+    print("\n--- PRODUTO MAIS CARO ---")
+    if not estoque:
+        print("Nenhum produto cadastrado.")
+        return
+        
+    # Encontra o elemento com base no atributo preço
+    mais_caro = max(estoque, key=lambda p: p.preco)
+    print(f"Produto de maior valor unitário: {mais_caro.nome} (R$ {mais_caro.preco:.2f})")
+    print(f"Quantidade física disponível em estoque: {mais_caro.quantidade} unidades")
+
+def executar_sistema():
+    while True:
+        print("\n===== SISTEMA DE ESTOQUE =====")
+        print("1 - Cadastrar produto")
+        print("2 - Listar produtos")
+        print("3 - Buscar produto")
+        print("4 - Valor total do estoque")
+        print("5 - Produto mais caro")
+        print("0 - Sair")
+        
+        opcao = input("\nEscolha: ")
+        
+        if opcao == "1":
+            cadastrar_produto()
+        elif opcao == "2":
+            listar_produtos()
+        elif opcao == "3":
+            buscar_produto()
+        elif opcao == "4":
+            calcular_valor_total()
+        elif opcao == "5":
+            identificar_produto_mais_caro()
+        elif opcao == "0":
+            print("\nFinalizando o Sistema de Estoque. Até mais!")
+            break
+        else:
+            print("\nOpção inválida! Escolha uma opção válida de 0 a 5.")
+
+# Inicializa o loop de controle do estoque
+if __name__ == "__main__":
+    executar_sistema()
