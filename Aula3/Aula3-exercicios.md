@@ -16,7 +16,7 @@ b.append(40)
 
 ### Respostas:
 
-1. **Qual será a saída ao exibir as variáveis `a` e `b`?**
+1. **Qual será a saída ao exibir as variáveis a e b?**
    * **Saída:**
      ```python
      print(a)  # Saída: [10, 20, 30, 40]
@@ -29,17 +29,17 @@ b.append(40)
 3. **Por quê?**
    * Em Python, a atribuição `b = a` não cria uma cópia dos dados da lista; ela apenas copia a **referência** (o endereço de memória) do objeto associado à variável `a`. Como as duas variáveis compartilham a mesma referência, qualquer alteração feita no objeto por meio de uma delas (como o método `.append()`, visto que listas são objetos mutáveis) será refletida ao acessar a outra. Se utilizarmos a função `id(a)` e `id(b)`, veremos que ambos os identificadores de memória são idênticos.
 
-4. **O que aconteceria com `b = a.copy()`?**
-   * Se utilizarmos `b = a.copy()`, o Python realizará uma **cópia rasa** (*shallow copy*) da lista. Isso cria um **novo objeto lista na memória** contendo os mesmos elementos originais. Nesse caso:
-     * `id(a)` seria diferente de `id(b)`.
-     * Se adicionarmos um elemento a `b` (ex: `b.append(40)`), apenas `b` seria alterado (ficando `[10, 20, 30, 40]`), enquanto `a` permaneceria intacto (`[10, 20, 30]`).
+4. **O que aconteceria com b = a.copy()?**
+   * Se utilizarmos b = a.copy(), o Python realizará uma **cópia rasa** (*shallow copy*) da lista. Isso cria um **novo objeto lista na memória** contendo os mesmos elementos originais. Nesse caso:
+     * id(a) seria diferente de id(b).
+     * Se adicionarmos um elemento a b (ex: b.append(40)), apenas b seria alterado (ficando [10, 20, 30, 40]), enquanto a permaneceria intacto ([10, 20, 30]).
 
 ---
 
 ## 2. Exercício 2 — Construindo uma cadeia
 
 ### Implementação do Código
-Abaixo está o código completo que cria a classe de nó (`Node`), conecta três nós de maneira encadeada e realiza o percurso para exibir a estrutura.
+Abaixo está o código completo que cria a classe de nó (Node), conecta três nós de maneira encadeada e realiza o percurso para exibir a estrutura.
 
 ```python
 class Node:
@@ -84,19 +84,19 @@ No código de travessia original, o programa entrava em loop infinito ao tentar 
 ### Respostas:
 
 1. **Qual é o problema?**
-   * O loop `while` entra em um estado de **loop infinito**, executando indefinidamente e travando o programa.
+   * O loop while entra em um estado de **loop infinito**, executando indefinidamente e travando o programa.
 
 2. **Por que o programa não termina?**
-   * Porque a variável de controle do loop (`atual`) nunca é atualizada dentro do escopo do bloco `while`. Como o seu valor inicial (o primeiro nó) não é nulo (`None`), a condição `while atual is not None` permanece verdadeira (`True`) para sempre.
+   * Porque a variável de controle do loop (atual) nunca é atualizada dentro do escopo do bloco while. Como o seu valor inicial (o primeiro nó) não é nulo (None), a condição while atual is not None permanece verdadeira (True) para sempre.
 
 3. **Qual linha deve ser acrescentada para corrigir o erro?**
-   * Deve ser acrescentada a linha de avanço de ponteiro/referência dentro do bloco `while`:
+   * Deve ser acrescentada a linha de avanço de ponteiro/referência dentro do bloco while:
      ```python
      atual = atual.proximo
      ```
 
 4. **Qual será a saída depois da correção?**
-   * O loop imprimirá com sucesso o valor de cada nó sequencialmente e terminará assim que o ponteiro `atual` receber o valor `None` (indicando o fim da cadeia):
+   * O loop imprimirá com sucesso o valor de cada nó sequencialmente e terminará assim que o ponteiro atual receber o valor None (indicando o fim da cadeia):
      ```text
      A
      B
@@ -112,8 +112,8 @@ Esta seção apresenta a modelagem completa e funcional do sistema de atendiment
 ### Funcionalidades do Código:
 * **Classe Paciente:** Modela os dados de cada paciente (nome, idade e prioridade).
 * **Classe Node:** Modela os nós da estrutura de dados dinâmica, encapsulando um paciente e apontando para o próximo nó.
-* **Classe FilaAtendimento:** Gerencia a estrutura dinâmica, implementando os métodos obrigatórios: `adicionar()`, `atender()`, `listar()`, `esta_vazia()` e `tamanho()`.
-* **Desafio - Atendimento Prioritário Integrado:** Pacientes prioritários (com `prioridade=True`) são automaticamente posicionados à frente dos pacientes normais na fila. Para garantir a justiça no atendimento, a ordem cronológica de chegada é mantida rigorosamente dentro de cada grupo de prioridade (os prioritários mais antigos ficam antes dos prioritários mais novos, e todos ficam antes dos normais).
+* **Classe FilaAtendimento:** Gerencia a estrutura dinâmica, implementando os métodos obrigatórios: adicionar(), atender(), listar(), esta_vazia() e tamanho().
+* **Desafio - Atendimento Prioritário Integrado:** Pacientes prioritários (com prioridade=True) são automaticamente posicionados à frente dos pacientes normais na fila. Para garantir a justiça no atendimento, a ordem cronológica de chegada é mantida rigorosamente dentro de cada grupo de prioridade (os prioritários mais antigos ficam antes dos prioritários mais novos, e todos ficam antes dos normais).
 
 ### Código Completo (Python)
 
@@ -281,18 +281,18 @@ Chamando: Pedro Lima (28 anos) - Status: Normal
 
 ## 5. Documentação de Erro Encontrado e sua Correção (Requisito do Checklist)
 
-Durante o desenvolvimento de estruturas de dados dinâmicas como a `FilaAtendimento`, é comum cometer erros relacionados à atualização das referências. 
+Durante o desenvolvimento de estruturas de dados dinâmicas como a FilaAtendimento, é comum cometer erros relacionados à atualização das referências. 
 
 ### Erro Comum de Referência Nula (NullPointerException / AttributeError)
-* **O Erro:** Ao implementar o método `adicionar` para pacientes prioritários, uma primeira tentativa de código poderia omitir a verificação se o próximo nó existe antes de acessar seus atributos.
+* **O Erro:** Ao implementar o método adicionar para pacientes prioritários, uma primeira tentativa de código poderia omitir a verificação se o próximo nó existe antes de acessar seus atributos.
   ```python
   # Trecho com Bug
   atual = self.inicio
   while atual.paciente.prioridade:  # E se 'atual' for None ou o próximo for None?
       atual = atual.proximo
   ```
-  Isso causaria o erro `AttributeError: 'NoneType' object has no attribute 'paciente'` quando a fila estivesse vazia ou quando percorrêssemos a lista até o último elemento.
-* **A Correção:** Sempre garantir que o ponteiro que está sendo avaliado (`atual` ou `atual.proximo`) não é `None` antes de tentar acessar suas propriedades, garantindo a integridade física da estrutura dinâmica de nós na memória:
+  Isso causaria o erro AttributeError: 'NoneType' object has no attribute 'paciente' quando a fila estivesse vazia ou quando percorrêssemos a lista até o último elemento.
+* **A Correção:** Sempre garantir que o ponteiro que está sendo avaliado (atual ou atual.proximo) não é None antes de tentar acessar suas propriedades, garantindo a integridade física da estrutura dinâmica de nós na memória:
   ```python
   # Trecho Corrigido
   atual = self.inicio
