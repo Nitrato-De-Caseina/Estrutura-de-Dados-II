@@ -1,125 +1,83 @@
 #----------------------------Exercicio 1----------------------------
-# Implementação de uma Pilha (LIFO) para o Simulador de "Desfazer" (Undo) no Editor de Texto.
-# O último comando registrado é sempre o primeiro a ser removido/desfeito.
+# Objetivo: Implementar uma Pilha (LIFO) para gerenciar o "Desfazer" de um editor de texto.
 
-class SimuladorDesfazer:
+class EditorTexto:
     def __init__(self):
-        # A lista nativa do Python é usada como pilha devido à eficiência do append() e pop() no final.
-        self.historico = []
+        self.pilha_acoes = []  # LIFO: o último comando inserido é o primeiro a ser desfeito
 
-    def registrar_acao(self, acao: str):
-        # Empilha a ação executada no topo da pilha
-        self.historico.append(acao)
+    def registrar_acao(self, acao):
+        self.pilha_acoes.append(acao)
 
     def desfazer(self):
-        # Remove e retorna a última ação (topo da pilha)
-        if len(self.historico) == 0:
-            return "Nenhuma ação para desfazer."
-        return self.historico.pop()
+        if self.pilha_acoes:
+            return self.pilha_acoes.pop()
+        return None
 
+# --- Teste do Exercício 1 ---
+editor = EditorTexto()
+editor.registrar_acao("digitar 'Olá'")
+editor.registrar_acao("apagar 'a'")
+editor.registrar_acao("substituir 'Ol' por 'Oi'")
 
-### --- Teste do Exercício 1 ---
-if __name__ == "__main__":
-    editor = SimuladorDesfazer()
-    
-    # Registrando ações
-    editor.registrar_acao("Digitar texto 'Olá Mundo'")
-    editor.registrar_acao("Aplicar negrito")
-    editor.registrar_acao("Apagar palavra 'Mundo'")
-    
-    print("Histórico antes de desfazer:", editor.historico)
-    
-    # Executando operações de desfazer
-    print("Desfeito:", editor.desfazer())  # Reverte "Apagar palavra 'Mundo'"
-    print("Desfeito:", editor.desfazer())  # Reverte "Aplicar negrito"
-    
-    print("Histórico atual:", editor.historico)
+print("Pilha de ações:", editor.pilha_acoes)
+print("Desfazendo:", editor.desfazer())
+print("Pilha após desfazer:", editor.pilha_acoes)
 
 
 #----------------------------Exercicio 2----------------------------
-# Implementação de uma Fila (FIFO) para o Spooler de Impressão.
-# O primeiro documento inserido na fila é obrigatoriamente o primeiro a ser impresso.
+# Objetivo: Implementar uma Fila (FIFO) para gerenciar o spooler de impressão.
 
 from collections import deque
 
 class SpoolerImpressao:
     def __init__(self):
-        # collections.deque é utilizado por ser otimizado para inserções no final e remoções no início (O(1)).
-        self.fila_documentos = deque()
+        self.fila_impressao = deque()  # FIFO: o primeiro documento a entrar é o primeiro a ser impresso
 
-    def adicionar_documento(self, documento: str):
-        # Enfileira o documento ao final da fila
-        self.fila_documentos.append(documento)
+    def adicionar_documento(self, documento):
+        self.fila_impressao.append(documento)
 
-    def imprimir_proximo(self):
-        # Desenfileira o primeiro elemento do início (mais antigo)
-        if len(self.fila_documentos) == 0:
-            return "Spooler vazio. Nenhum documento pendente."
-        return self.fila_documentos.popleft()
+    def imprimir(self):
+        if self.fila_impressao:
+            return self.fila_impressao.popleft()
+        return None
 
+# --- Teste do Exercício 2 ---
+impressora = SpoolerImpressao()
+impressora.adicionar_documento("Relatorio.pdf")
+impressora.adicionar_documento("Trabalho_Escolar.docx")
+impressora.adicionar_documento("Boleto.pdf")
 
-### --- Teste do Exercício 2 ---
-if __name__ == "__main__":
-    spooler = SpoolerImpressao()
-    
-    # Adicionando documentos na fila
-    spooler.adicionar_documento("Relatorio_Financeiro.pdf")
-    spooler.adicionar_documento("Apresentacao_Projeto.pptx")
-    spooler.adicionar_documento("Tese_Mestrado.pdf")
-    
-    print("\nDocumentos na fila:", list(spooler.fila_documentos))
-    
-    # Imprimindo documentos sequencialmente
-    print("Imprimindo:", spooler.imprimir_proximo())  # Imprime "Relatorio_Financeiro.pdf"
-    print("Imprimindo:", spooler.imprimir_proximo())  # Imprime "Apresentacao_Projeto.pptx"
-    
-    print("Documentos restantes na fila:", list(spooler.fila_documentos))
+print("\nFila de impressão:", list(impressora.fila_impressao))
+print("Imprimindo:", impressora.imprimir())
+print("Fila restante:", list(impressora.fila_impressao))
 
 
 #----------------------------------------Desafio Master----------------------------------------
-# Implementação de um Deque (Fila de duas pontas) para o Sistema de Triagem Hospitalar.
-# Pacientes prioritários furam a fila sendo inseridos na esquerda (início).
-# Pacientes padrão entram no final da fila na direita (fim).
+# Objetivo: Triagem Hospitalar usando Deque (fila de duas pontas) para gerenciar prioridades.
 
 from collections import deque
 
 class TriagemHospitalar:
     def __init__(self):
-        # Inicializa o deque para permitir inserções rápidas em ambas as pontas
-        self.fila_atendimento = deque()
+        self.fila_atendimento = deque()  # Deque permite inserções eficientes em ambas as extremidades
 
-    def cadastrar_paciente(self, nome: str, prioritario: bool = False):
+    def adicionar_paciente(self, nome, prioritario=False):
         if prioritario:
-            # Insere no início da fila (esquerda)
-            self.fila_atendimento.appendleft(nome)
+            self.fila_atendimento.appendleft(nome)  # Inserção no início (fura a fila)
         else:
-            # Insere no final da fila (direita)
-            self.fila_atendimento.append(nome)
+            self.fila_atendimento.append(nome)  # Inserção no final (fluxo comum)
 
-    def chamar_paciente(self):
-        # Remove e atende o paciente na frente da fila (esquerda)
-        if len(self.fila_atendimento) == 0:
-            return "Não há pacientes aguardando atendimento."
-        return self.fila_atendimento.popleft()
+    def chamar_proximo(self):
+        if self.fila_atendimento:
+            return self.fila_atendimento.popleft()
+        return None
 
+# --- Teste do Desafio Master ---
+hospital = TriagemHospitalar()
+hospital.adicionar_paciente("Joao (Normal)", prioritario=False)
+hospital.adicionar_paciente("Maria (Normal)", prioritario=False)
+hospital.adicionar_paciente("Sr. Pedro (Prioritario)", prioritario=True)
 
-### --- Teste do Desafio Master ---
-if __name__ == "__main__":
-    hospital = TriagemHospitalar()
-    
-    # Chegada de pacientes padrão
-    hospital.cadastrar_paciente("Ana Silva", prioritario=False)
-    hospital.cadastrar_paciente("Carlos Souza", prioritario=False)
-    
-    # Chegada de paciente prioritário (fura-fila)
-    hospital.cadastrar_paciente("Sr. José Oliveira (Idoso)", prioritario=True)
-    
-    # Chegada de mais um paciente prioritário (entra na frente de todos, inclusive do Sr. José)
-    hospital.cadastrar_paciente("Dona Maria Santos (Gestante)", prioritario=True)
-    
-    print("\nFila atual de atendimento (Frente -> Fim):", list(hospital.fila_atendimento))
-    
-    # Atendimento sequencial
-    print("Chamado para atendimento:", hospital.chamar_paciente())  # Deve ser Dona Maria
-    print("Chamado para atendimento:", hospital.chamar_paciente())  # Deve ser Sr. José
-    print("Chamado para atendimento:", hospital.chamar_paciente())  # Deve ser Ana Silva
+print("\nFila de triagem:", list(hospital.fila_atendimento))
+print("Chamando proximo:", hospital.chamar_proximo())
+print("Fila de triagem atualizada:", list(hospital.fila_atendimento))
