@@ -23,7 +23,7 @@ b.append(40)
      print(b)  # Saída: [10, 20, 30, 40]
      ```
 
-2. **`a` e `b` representam o mesmo objeto?**
+2. **a e b representam o mesmo objeto?**
    * **Sim.** Ambas as variáveis apontam para o mesmo e único objeto do tipo lista na memória.
 
 3. **Por quê?**
